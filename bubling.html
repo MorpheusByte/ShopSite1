@@ -13,6 +13,22 @@
           <button id="button" style="padding: 10px;">Click Me</button>
         </div>
       </div>
+      <script>
+        document.getElementById("parent").addEventListener("click", () => {
+      alert("Parent clicked (Bubbling)");
+
+    });
+
+    document.getElementById("child").addEventListener("click", () => {
+      alert("Child clicked (Bubbling)");
+    });
+
+    document.getElementById("button").addEventListener("click", (e) => {
+    
+        e.stopImmediatePropagation()
+      alert("Button clicked");
+    });
+      </script>
     
 </body>
 </html>
