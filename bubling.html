@@ -20,6 +20,7 @@
     });
 
     document.getElementById("child").addEventListener("click", () => {
+        //eğer aile üyelerinin hepsine onclick atarsak, dalgalanma olur ve sadece çocuk tıklandığında bile baba dede etkilenir. bu olmasın diye, bubling i durdur (e.stopPropagation()) yazarız
       alert("Child clicked (Bubbling)");
     });
 
