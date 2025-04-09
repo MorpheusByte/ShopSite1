@@ -97,7 +97,7 @@ let sepettekiler = [
     document.querySelector(".kargo").textContent = toplamArray > 0 ? 15 : 0;
   
     document.querySelector(".toplam").textContent =
-      toplamArray + toplamArray * 0.18 + (toplamArray > 0 ? 15 : 0);
+      (toplamArray + toplamArray * 0.18 + (toplamArray > 0 ? 15 : 0)).toFixed(2);
   }
   
   //! 3- silme işlemi
@@ -133,6 +133,31 @@ let sepettekiler = [
           hesaplaCardTotal()
       };
   
-      
+  
+      //*azaltma
+  
+  minus.onclick=()=>{
+  
+  adet.textContent-=1
+  
+  if(adet.textContent<1){
+  alert("ürünü silmek istediğine eminmisin ?")
+  
+  minus.closest(".row").remove()
+  hesaplaCardTotal()
+  
+  }else{
+  
+  minus.closest(".card-body").querySelector(".product-total").textContent =
+    minus.closest(".card-body").querySelector(".indirim-price").textContent *
+    adet.textContent;
+  
+  hesaplaCardTotal()
+  
+  }
+  
+  
+  }
+  
     });
   }
