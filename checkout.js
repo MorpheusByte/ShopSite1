@@ -73,3 +73,46 @@ let sepettekiler = [
   
   `;
   });
+  
+  
+  //! 2-toplam değerleri tablosunun doldurulması
+  
+    
+  
+  hesaplaCardTotal()
+  removeButton()
+  
+  function hesaplaCardTotal(){
+  
+  const fiyatlar=Array.from(document.querySelectorAll(".product-total"))
+  
+  const toplamArray=fiyatlar.reduce((toplam,ürünSpan)=>toplam+Number(ürünSpan.textContent),0)
+  
+  document.querySelector(".productstoplam").textContent = toplamArray;
+  
+  document.querySelector(".vergi").textContent=toplamArray*0.18
+  
+  document.querySelector(".kargo").textContent=toplamArray > 0 ? 15:0
+  
+  
+  document.querySelector(".toplam").textContent =
+    toplamArray + toplamArray * 0.18 + (toplamArray > 0 ? 15:0);
+  
+  }
+  
+  //! 3- silme işlemi
+  function removeButton(){
+  document.querySelectorAll(".remove-product").forEach((btn)=>{
+  
+  btn.onclick=()=>{
+      // sülalesini sil
+  // btn.parentElement.parentElement.parentElement.parentElement.remove()  
+  
+  btn.closest(".row").remove()
+  hesaplaCardTotal()
+  
+  }
+  
+  })
+  
+  }
