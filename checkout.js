@@ -34,7 +34,9 @@ let sepettekiler = [
                   <h5 class="card-title">${name}</h5>
   
                   <div class="ürün-price">
-                    <p class="text-warning h2">$<span class="indirim-price">${(price*0.7).toFixed(2)} </span>
+                    <p class="text-warning h2">$<span class="indirim-price">${(
+                      price * 0.7
+                    ).toFixed(2)} </span>
                       <span class="h5 text-dark text-decoration-line-through">${price}</span>
                     </p>
                   </div>
@@ -61,7 +63,7 @@ let sepettekiler = [
   
                   <div class="mt-2">
                   <p>Ürün Toplam:<span class="product-total">
-                  ${(price*0.7*piece).toFixed(2)}
+                  ${(price * 0.7 * piece).toFixed(2)}
                   
                   </span></p>
                     
@@ -74,45 +76,63 @@ let sepettekiler = [
   `;
   });
   
-  
   //! 2-toplam değerleri tablosunun doldurulması
   
-    
+  hesaplaCardTotal();
+  removeButton();
+  arttirAzalt();
   
-  hesaplaCardTotal()
-  removeButton()
+  function hesaplaCardTotal() {
+    const fiyatlar = Array.from(document.querySelectorAll(".product-total"));
   
-  function hesaplaCardTotal(){
+    const toplamArray = fiyatlar.reduce(
+      (toplam, ürünSpan) => toplam + Number(ürünSpan.textContent),
+      0
+    );
   
-  const fiyatlar=Array.from(document.querySelectorAll(".product-total"))
+    document.querySelector(".productstoplam").textContent = toplamArray;
   
-  const toplamArray=fiyatlar.reduce((toplam,ürünSpan)=>toplam+Number(ürünSpan.textContent),0)
+    document.querySelector(".vergi").textContent = toplamArray * 0.18;
   
-  document.querySelector(".productstoplam").textContent = toplamArray;
+    document.querySelector(".kargo").textContent = toplamArray > 0 ? 15 : 0;
   
-  document.querySelector(".vergi").textContent=toplamArray*0.18
-  
-  document.querySelector(".kargo").textContent=toplamArray > 0 ? 15:0
-  
-  
-  document.querySelector(".toplam").textContent =
-    toplamArray + toplamArray * 0.18 + (toplamArray > 0 ? 15:0);
-  
+    document.querySelector(".toplam").textContent =
+      toplamArray + toplamArray * 0.18 + (toplamArray > 0 ? 15 : 0);
   }
   
   //! 3- silme işlemi
-  function removeButton(){
-  document.querySelectorAll(".remove-product").forEach((btn)=>{
+  function removeButton() {
+    document.querySelectorAll(".remove-product").forEach((btn) => {
+      btn.onclick = () => {
+        // sülalesini sil
+        // btn.parentElement.parentElement.parentElement.parentElement.remove()
   
-  btn.onclick=()=>{
-      // sülalesini sil
-  // btn.parentElement.parentElement.parentElement.parentElement.remove()  
-  
-  btn.closest(".row").remove()
-  hesaplaCardTotal()
-  
+        btn.closest(".row").remove();
+        hesaplaCardTotal();
+      };
+    });
   }
   
-  })
+  //! 4- ürün adet azaltma-arttırma
+  function arttirAzalt() {
+    document.querySelectorAll(".adet-controller").forEach((kutu) => {
+      const plus = kutu.lastElementChild;
+      // const adet=plus.previousElementSibling
+      const adet = kutu.children[1];
   
+      const minus = kutu.firstElementChild;
+  
+      //*arttırma
+      plus.onclick = () => {
+        adet.textContent = Number(adet.textContent) + 1;
+  
+        plus.closest(".card-body").querySelector(".product-total").textContent =
+          plus.closest(".card-body").querySelector(".indirim-price").textContent *
+          adet.textContent;
+  
+          hesaplaCardTotal()
+      };
+  
+      
+    });
   }
